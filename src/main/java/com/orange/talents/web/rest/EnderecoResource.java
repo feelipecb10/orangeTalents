@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orange.talents.domain.model.Endereco;
-import com.orange.talents.domain.repository.EnderecoRepository;
+import com.orange.talents.domain.service.EnderecoUsuarioService;
 
 /**
  * CONTROLADOR REST ENDERECO 
@@ -21,12 +21,12 @@ import com.orange.talents.domain.repository.EnderecoRepository;
 public class EnderecoResource {	
 	
 	@Autowired
-	private EnderecoRepository enderecoRepository;
+	private EnderecoUsuarioService enderecoUsuarioService;
 	
 	@PostMapping("/endereco")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Endereco criaEndereco(@Valid @RequestBody Endereco endereco) {		
-		return enderecoRepository.save(endereco);
+		return enderecoUsuarioService.criar(endereco);
 	}
 
 }

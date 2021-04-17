@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.orange.talents.domain.model.Usuario;
-import com.orange.talents.domain.repository.UsuarioRepository;
+import com.orange.talents.domain.service.UsuarioService;
 
 
 /**
@@ -22,20 +21,12 @@ import com.orange.talents.domain.repository.UsuarioRepository;
 public class UsuarioResource {	
 	
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UsuarioService usuarioService;
 	
 	@PostMapping("/usuario")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Usuario criaUsuario(@Valid @RequestBody Usuario usuario) {
-		
-		Usuario emailExistente = usuarioRepository.findByEmail(usuario.getEmail());
-		Usuario cpfExistente = usuarioRepository.findByCpf(usuario.getCpf());
-		
-		if(emailExistente != null || cpfExistente!= null) {
-			
-		}
-		
-		return usuarioRepository.save(usuario);
+	public Usuario criaUsuario(@Valid @RequestBody Usuario usuario) {		
+		return usuarioService.criar(usuario);
 	}
 
 }
