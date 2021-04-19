@@ -1,20 +1,27 @@
 package com.orange.talents.domain.model;
 
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 /**
  * TABELA USUARIO.
  */
 
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"email","cpf"})})
 public class Usuario {	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +33,7 @@ public class Usuario {
 	private String nome;
 	
 	@NotBlank
-	@Email
+	@Email(message="Email inserido não é válido")
 	@Size(max = 100)
 	@Column(name = "email")
 	private String email;
@@ -36,9 +43,12 @@ public class Usuario {
 	@Column(name = "cpf")
 	private String cpf;	
 	
-	@NotBlank
+	@NotNull
 	@Column(name = "data_nascimento")
 	private Date data_nascimento;
+	
+	@OneToMany(mappedBy = "usuario")
+	private List<Endereco> lista_enderecos = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -78,6 +88,16 @@ public class Usuario {
 
 	public void setData_nascimento(Date data_nascimento) {
 		this.data_nascimento = data_nascimento;
+	}
+	
+	
+
+	public List<Endereco> getLista_enderecos() {
+		return lista_enderecos;
+	}
+
+	public void setLista_enderecos(List<Endereco> lista_enderecos) {
+		this.lista_enderecos = lista_enderecos;
 	}
 
 	@Override

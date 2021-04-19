@@ -5,10 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 /**
  * TABELA ENDERECO
@@ -23,12 +27,11 @@ public class Endereco {
 	@NotBlank
 	@Size(max = 100)
 	@Column(name = "logradouro")
-	private String logradouro;
+	private String logradouro;			
 	
-	@NotBlank
-	@Size(max = 11)
+	@NotNull
 	@Column(name = "numero")
-	private Integer numero;
+	private int numero;
 	
 	@NotBlank
 	@Size(max = 100)
@@ -55,9 +58,19 @@ public class Endereco {
 	@Column(name = "cep")
 	private String cep;
 	
-	@ManyToOne
-	@JoinColumn(name="usuario_id")
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@ManyToOne	
 	private Usuario usuario;
+	
+	
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 	public Long getId() {
 		return id;
@@ -73,13 +86,13 @@ public class Endereco {
 
 	public void setLogradouro(String logradouro) {
 		this.logradouro = logradouro;
-	}
+	}		
 
-	public Integer getNumero() {
+	public int getNumero() {
 		return numero;
 	}
 
-	public void setNumero(Integer numero) {
+	public void setNumero(int numero) {
 		this.numero = numero;
 	}
 

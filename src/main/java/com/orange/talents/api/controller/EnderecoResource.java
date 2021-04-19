@@ -1,9 +1,10 @@
-package com.orange.talents.web.rest;
+package com.orange.talents.api.controller;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ public class EnderecoResource {
 	
 	@PostMapping("/endereco")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Endereco criaEndereco(@Valid @RequestBody Endereco endereco) {		
+	public ResponseEntity<Endereco> criaEndereco(@Valid @RequestBody Endereco endereco) {		
 		return enderecoUsuarioService.criar(endereco);
 	}
 

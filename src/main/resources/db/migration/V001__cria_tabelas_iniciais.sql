@@ -3,7 +3,9 @@ CREATE TABLE usuario(
 	nome VARCHAR(255) NOT NULL,
 	email VARCHAR(100) NOT NULL,
 	cpf VARCHAR(11) NOT NULL,
-	data_nascimento DATE
+	data_nascimento DATE,
+	UNIQUE KEY uk_usuario_email(email),
+	UNIQUE KEY uk_usuario_cpf(cpf)
 );
 
 CREATE TABLE endereco(

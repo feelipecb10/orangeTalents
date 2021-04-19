@@ -14,14 +14,18 @@ public class UsuarioService {
 	
 	public Usuario criar(Usuario usuario) {
 		
-		Usuario emailExistente = usuarioRepository.findByEmail(usuario.getEmail());
-		Usuario cpfExistente = usuarioRepository.findByCpf(usuario.getCpf());
+		/*Usuario emailExistente = usuarioRepository.findByEmail(usuario.getEmail());
+		Usuario cpfExistente = usuarioRepository.findByCpf(usuario.getCpf());*/
 		
 		/*if(emailExistente != null || cpfExistente!= null) {
 			
 		}*/
 		
 		return usuarioRepository.save(usuario);
+	}	
+	
+	public Usuario buscaDadosUsuario(Long usuario_id) {		
+		return usuarioRepository.findById(usuario_id).get();
 	}
 	
 	
