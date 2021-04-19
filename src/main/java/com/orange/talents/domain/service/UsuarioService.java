@@ -24,8 +24,8 @@ public class UsuarioService {
 		return usuarioRepository.save(usuario);
 	}	
 	
-	public Usuario buscaDadosUsuario(Long usuario_id) {		
-		return usuarioRepository.findById(usuario_id).get();
+	public Usuario buscaDadosUsuario(String cpf) {		
+		return usuarioRepository.findByCpf(cpf);
 	}
 	
 	

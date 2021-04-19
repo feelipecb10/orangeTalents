@@ -6,16 +6,17 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.BeanUtils;
 
-import com.orange.talents.api.model.EnderecoViaCepModel;
+import com.orange.talents.api.model.EnderecoInput;
 import com.orange.talents.domain.model.Endereco;
 import com.orange.talents.domain.model.Usuario;
 import com.orange.talents.domain.repository.EnderecoRepository;
 import com.orange.talents.domain.repository.UsuarioRepository;
-import com.orange.talents.integracao.cep.CepService;
+import com.orange.talents.integration.cep.CepService;
 
 @Service
-public class EnderecoUsuarioService {
+public class EnderecoService {
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;	
@@ -29,15 +30,17 @@ public class EnderecoUsuarioService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	public ResponseEntity<Endereco> criar(Endereco endereco) {		
+	public ResponseEntity<Endereco> criar(EnderecoInput enderecoInput) {
 		
-		EnderecoViaCepModel enderecoViaCep = cepService.getCep(endereco.getCep());
+		System.out.println("EnderecoInput: " +enderecoInput.toString());
 		
-		endereco.setCidade(enderecoViaCep.getLocalidade());
-		endereco.setBairro(enderecoViaCep.getBairro());
-		endereco.setUf(enderecoViaCep.getUf());
-		endereco.setComplemento(enderecoViaCep.getComplemento());
-		endereco.setLogradouro(enderecoViaCep.getLogradouro());		
+		Endereco endereco = modelMapper.map(cepService.getCep(enderecoInput.getCep()), Endereco.class);	
+		
+		System.out.println("Endereco: " +endereco.toString());
+		
+		BeanUtils.copyProperties(endereco, enderecoInput);	
+		
+		System.out.println("EnderecoFinal: " +endereco.toString());
 		
 		Optional<Usuario> usuario = usuarioRepository.findById(endereco.getUsuario().getId());
 		

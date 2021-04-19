@@ -1,4 +1,4 @@
-package com.orange.talents.integracao.cep;
+package com.orange.talents.integration.cep;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;

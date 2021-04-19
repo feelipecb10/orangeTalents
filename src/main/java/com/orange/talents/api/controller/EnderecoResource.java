@@ -11,23 +11,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.orange.talents.api.model.EnderecoInput;
 import com.orange.talents.domain.model.Endereco;
-import com.orange.talents.domain.service.EnderecoUsuarioService;
+import com.orange.talents.domain.service.EnderecoService;
 
 /**
  * CONTROLADOR REST ENDERECO 
  */
 @RestController
-@RequestMapping("/api")
 public class EnderecoResource {	
 	
 	@Autowired
-	private EnderecoUsuarioService enderecoUsuarioService;
+	private EnderecoService enderecoUsuarioService;
 	
 	@PostMapping("/endereco")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Endereco> criaEndereco(@Valid @RequestBody Endereco endereco) {		
-		return enderecoUsuarioService.criar(endereco);
+	public ResponseEntity<Endereco> criaEndereco(@Valid @RequestBody EnderecoInput enderecoInput) {		
+		return enderecoUsuarioService.criar(enderecoInput);
 	}
 
 }

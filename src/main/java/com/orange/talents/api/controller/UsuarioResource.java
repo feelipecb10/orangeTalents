@@ -19,7 +19,6 @@ import com.orange.talents.domain.service.UsuarioService;
  * CONTROLADOR REST USUARIO 
  */
 @RestController
-@RequestMapping("/api")
 public class UsuarioResource {	
 	
 	@Autowired
@@ -27,13 +26,13 @@ public class UsuarioResource {
 	
 	@PostMapping("/usuario")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Usuario criaUsuario(@Valid @RequestBody Usuario usuario) {		
+	public Usuario criaUsuario(@Valid @RequestBody Usuario usuario){		
 		return usuarioService.criar(usuario);
 	}
 	
-	@GetMapping("/busca-usuario/{usuario_id}")
-	public Usuario buscaDadosUsuario(@PathVariable Long usuario_id){
-		return usuarioService.buscaDadosUsuario(usuario_id);
+	@GetMapping("/usuario/{cpf}")
+	public Usuario buscaDadosUsuario(@PathVariable String cpf){
+		return usuarioService.buscaDadosUsuario(cpf);
 	}
 
 }
