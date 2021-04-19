@@ -31,9 +31,8 @@ public class Endereco {
 	
 	@NotNull
 	@Column(name = "numero")
-	private int numero;
+	private int numero;	
 	
-	@NotBlank
 	@Size(max = 100)
 	@Column(name = "complemento")
 	private String complemento;
@@ -136,10 +135,13 @@ public class Endereco {
 		this.cep = cep;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "Endereco [id=" + id + ", logradouro=" + logradouro + ", numero=" + numero + ", complemento="
-				+ complemento + ", bairro=" + bairro + ", cidade=" + cidade + ", uf=" + uf + ", cep=" + cep + "]";
+				+ complemento + ", bairro=" + bairro + ", cidade=" + cidade + ", uf=" + uf + ", cep=" + cep
+				+ ", usuario=" + usuario + "]";
 	}
 
 	@Override

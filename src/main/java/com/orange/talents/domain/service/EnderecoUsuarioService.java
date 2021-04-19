@@ -1,20 +1,18 @@
 package com.orange.talents.domain.service;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.orange.talents.api.model.EnderecoViaCepModel;
 import com.orange.talents.domain.model.Endereco;
 import com.orange.talents.domain.model.Usuario;
 import com.orange.talents.domain.repository.EnderecoRepository;
 import com.orange.talents.domain.repository.UsuarioRepository;
+import com.orange.talents.integracao.cep.CepService;
 
 @Service
 public class EnderecoUsuarioService {
@@ -25,7 +23,21 @@ public class EnderecoUsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	public ResponseEntity<Endereco> criar(Endereco endereco) {
+	@Autowired
+	private CepService cepService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
+	
+	public ResponseEntity<Endereco> criar(Endereco endereco) {		
+		
+		EnderecoViaCepModel enderecoViaCep = cepService.getCep(endereco.getCep());
+		
+		endereco.setCidade(enderecoViaCep.getLocalidade());
+		endereco.setBairro(enderecoViaCep.getBairro());
+		endereco.setUf(enderecoViaCep.getUf());
+		endereco.setComplemento(enderecoViaCep.getComplemento());
+		endereco.setLogradouro(enderecoViaCep.getLogradouro());		
 		
 		Optional<Usuario> usuario = usuarioRepository.findById(endereco.getUsuario().getId());
 		
