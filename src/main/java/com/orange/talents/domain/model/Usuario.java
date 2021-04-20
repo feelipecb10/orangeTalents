@@ -33,7 +33,7 @@ public class Usuario {
 	private String nome;
 	
 	@NotBlank
-	@Email(message="Email inserido não é válido")
+	@Email
 	@Size(max = 100)
 	@Column(name = "email")
 	private String email;

@@ -19,12 +19,13 @@ import com.orange.talents.domain.service.EnderecoService;
  * CONTROLADOR REST ENDERECO 
  */
 @RestController
+@RequestMapping("/endereco")
 public class EnderecoResource {	
 	
 	@Autowired
 	private EnderecoService enderecoUsuarioService;
 	
-	@PostMapping("/endereco")
+	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Endereco> criaEndereco(@Valid @RequestBody EnderecoInput enderecoInput) {		
 		return enderecoUsuarioService.criar(enderecoInput);

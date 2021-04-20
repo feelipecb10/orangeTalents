@@ -19,19 +19,20 @@ import com.orange.talents.domain.service.UsuarioService;
  * CONTROLADOR REST USUARIO 
  */
 @RestController
+@RequestMapping("/usuario")
 public class UsuarioResource {	
 	
 	@Autowired
 	private UsuarioService usuarioService;
 	
-	@PostMapping("/usuario")
+	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario criaUsuario(@Valid @RequestBody Usuario usuario){		
 		return usuarioService.criar(usuario);
 	}
 	
-	@GetMapping("/usuario/{cpf}")
-	public Usuario buscaDadosUsuario(@PathVariable String cpf){
+	@GetMapping("/{cpf}")
+	public Usuario buscaDadosUsuario(@PathVariable String cpf){		
 		return usuarioService.buscaDadosUsuario(cpf);
 	}
 

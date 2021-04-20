@@ -9,7 +9,7 @@ import com.orange.talents.domain.model.Usuario;
 public class EnderecoInput {
 	
 	@NotBlank
-	@Size(max = 10)
+	@Size(max = 8)
 	private String cep;	
 	
 	@NotNull	

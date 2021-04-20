@@ -6,13 +6,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.BeanUtils;
 
 import com.orange.talents.api.model.EnderecoInput;
 import com.orange.talents.domain.model.Endereco;
 import com.orange.talents.domain.model.Usuario;
 import com.orange.talents.domain.repository.EnderecoRepository;
 import com.orange.talents.domain.repository.UsuarioRepository;
+import com.orange.talents.exception.DomainException;
 import com.orange.talents.integration.cep.CepService;
 
 @Service
@@ -30,24 +30,21 @@ public class EnderecoService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	public ResponseEntity<Endereco> criar(EnderecoInput enderecoInput) {
+	public ResponseEntity<Endereco> criar(EnderecoInput enderecoInput) {	
 		
-		System.out.println("EnderecoInput: " +enderecoInput.toString());
+		var viaCep = cepService.getCep(enderecoInput.getCep());
 		
-		Endereco endereco = modelMapper.map(cepService.getCep(enderecoInput.getCep()), Endereco.class);	
+		Endereco endereco = modelMapper.map(viaCep, Endereco.class);			
+		endereco.setNumero(enderecoInput.getNumero());
+		endereco.setComplemento(enderecoInput.getComplemento());
+		endereco.setCidade(viaCep.getLocalidade());	
 		
-		System.out.println("Endereco: " +endereco.toString());
-		
-		BeanUtils.copyProperties(endereco, enderecoInput);	
-		
-		System.out.println("EnderecoFinal: " +endereco.toString());
-		
-		Optional<Usuario> usuario = usuarioRepository.findById(endereco.getUsuario().getId());
+		Optional<Usuario> usuario = usuarioRepository.findById(enderecoInput.getUsuario().getId());
 		
 		if(usuario.isPresent()) {
 			endereco.setUsuario(usuario.get());
 		}else {
-			return ResponseEntity.status(400).build();
+			throw new DomainException("é necessário informar um usuário existente");
 		}
 		
 		return ResponseEntity.status(201).body(enderecoRepository.save(endereco));

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.orange.talents.api.model.EnderecoViaCepModel;
-import com.orange.talents.domain.model.Endereco;
 
 @Service
 @FeignClient(value = "viacep", url = "https://viacep.com.br/ws/")
